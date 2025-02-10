@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Plan & Renal Exchange Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #dbe3f2; /* Light blue background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            width: 350px;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+       .logo {
+    width: 100px; /* Adjust size as needed */
+    height: 100px; /* Ensures the logo is square */
+    border-radius: 50%; /* Makes the logo round */
+    display: block;
+    margin: 0 auto 15px; /* Centers logo and adds spacing */
+        }
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            text-align: left;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #34495e;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f7f9fc;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #3b4ca7;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        button:hover {
+            background-color: #2d3b82;
+        }
+        .chat-link {
+            display: block;
+            padding: 12px;
+            background-color: #3b4ca7;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-size: 16px;
+        }
+        .chat-link:hover {
+            background-color: #2d3b82;
+        }
+        #result {
+            display: none;
+            margin-top: 20px;
+        }
+        .result-box {
+            background-color: #f7f9fc;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: left;
+        }
+        .result-box p {
+            margin: 8px 0;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+	<h1> DieTECH </h1>
+        <img src="https://th.bing.com/th/id/R.79b7a13050485c9bb07aaf076dc888f4?rik=FIKPiS1g%2fCEUqg&pid=ImgRaw&r=0" alt="Logo" class="logo"> <!-- Inline Logo -->
+        <h2>Meal Plan & Renal Exchange</h2>
+        <form id="mealPlanForm">
+            <label>Weight (kg):</label>
+            <input type="number" id="weight" required>
+            
+            <label>Height (cm):</label>
+            <input type="number" id="height" required>
+            
+            <label>Age:</label>
+            <input type="number" id="age" required>
+            
+            <label>Activity Level:</label>
+            <select id="activity">
+                <option value="low">Low</option>
+                <option value="moderate">Moderate</option>
+                <option value="high">High</option>
+            </select>
+            
+            <button type="button" onclick="calculatePlan()">Calculate Plan</button>
+        </form>
+        
+        <div id="result">
+            <h3>Personalized Meal Plan</h3>
+            <div class="result-box">
+                <p><strong>BMI:</strong> <span id="bmi"></span></p>
+                <p><strong>Calories:</strong> <span id="calories"></span> kcal</p>
+                <p><strong>Protein:</strong> <span id="protein"></span> g</p>
+                <p><strong>Carbohydrates:</strong> <span id="carbs"></span> g</p>
+                <p><strong>Fats:</strong> <span id="fats"></span> g</p>
+            </div>
+			<p style="font-size: 14px; color: #34495e;">Copy your results and click below to chat with us for advice and recommendations.</p>
+            
+            <a class="chat-link" href="https://cdn.botpress.cloud/webchat/v2.2/shareable.html?configUrl=https://files.bpcontent.cloud/2025/02/08/13/20250208130826-2ZWRH87D.json">Chat Now for Meal Plan</a>
+        </div>
+    </div>
+
+    <script>
+        function calculatePlan() {
+            let weight = parseFloat(document.getElementById('weight').value);
+            let height = parseFloat(document.getElementById('height').value) / 100;
+            let age = parseInt(document.getElementById('age').value);
+            let activity = document.getElementById('activity').value;
+            
+            let bmi = (weight / (height * height)).toFixed(2);
+            let bmr = 10 * weight + 6.25 * (height * 100) - 5 * age + 5;
+            let activityFactor = activity === 'low' ? 1.2 : activity === 'moderate' ? 1.55 : 1.9;
+            let calories = Math.round(bmr * activityFactor);
+            
+            document.getElementById('bmi').innerText = bmi;
+            document.getElementById('calories').innerText = calories;
+            document.getElementById('protein').innerText = Math.round((calories * 0.15) / 4);
+            document.getElementById('carbs').innerText = Math.round((calories * 0.55) / 4);
+            document.getElementById('fats').innerText = Math.round((calories * 0.30) / 9);
+            
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

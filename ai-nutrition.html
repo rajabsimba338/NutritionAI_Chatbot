@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Nutrition - Your Complete Nutrition Guide</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 80px;
+        }
+
+        .section {
+            padding: 4rem 0;
+            margin: 2rem 0;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9));
+            color: white;
+            text-align: center;
+            padding: 6rem 0;
+            border-radius: 0;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.3s;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Calculator Section */
+        .calculator {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .calc-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 0.8rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .calc-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .calc-button:hover {
+            background: white;
+            color: #f5576c;
+        }
+
+        .results {
+            margin-top: 2rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .result-item {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .result-value {
+            font-size: 2rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        /* Education Sections */
+        .education-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .education-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .education-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .education-card i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .education-card h3 {
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        /* Food Recommendations */
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .food-category {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .food-category h4 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .food-list {
+            list-style: none;
+        }
+
+        .food-list li {
+            padding: 0.3rem 0;
+            color: #555;
+        }
+
+        /* Chatbot Section */
+        .chatbot {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            text-align: center;
+        }
+
+        .chatbot iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.6s ease;
+        }
+
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo"><i class="fas fa-leaf"></i> AI Nutrition</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#calculator">Calculator</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#recommendations">Recommendations</a></li>
+                <li><a href="#chatbot">AI Chat</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="container">
+                <h1><i class="fas fa-heart"></i> AI Nutrition</h1>
+                <p>Your personalized nutrition guide powered by artificial intelligence</p>
+                <a href="#calculator" class="cta-button">Calculate Your Meal Plan</a>
+            </div>
+        </section>
+
+        <!-- Meal Plan Calculator -->
+        <section id="calculator" class="section calculator">
+            <div class="container">
+                <h2 class="section-title">Meal Plan Calculator</h2>
+                <div class="calc-form">
+                    <div class="form-group">
+                        <label for="age">Age (years)</label>
+                        <input type="number" id="age" min="1" max="120" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="height">Height (cm)</label>
+                        <input type="number" id="height" min="100" max="250" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="weight">Weight (kg)</label>
+                        <input type="number" id="weight" min="30" max="300" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <select id="gender" required>
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="activity">Activity Level</label>
+                        <select id="activity" required>
+                            <option value="">Select Activity Level</option>
+                            <option value="sedentary">Sedentary (little/no exercise)</option>
+                            <option value="light">Light (light exercise/sports 1-3 days/week)</option>
+                            <option value="moderate">Moderate (moderate exercise/sports 3-5 days/week)</option>
+                            <option value="active">Active (hard exercise/sports 6-7 days a week)</option>
+                            <option value="very-active">Very Active (very hard exercise/sports & physical job)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="goal">Goal</label>
+                        <select id="goal" required>
+                            <option value="">Select Goal</option>
+                            <option value="lose">Lose Weight</option>
+                            <option value="maintain">Maintain Weight</option>
+                            <option value="gain">Gain Weight</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="calc-button" onclick="calculateMealPlan()">
+                    <i class="fas fa-calculator"></i> Calculate Meal Plan
+                </button>
+                
+                <div id="results" class="results" style="display: none;">
+                    <h3>Your Personalized Meal Plan</h3>
+                    <div class="results-grid">
+                        <div class="result-item">
+                            <span class="result-value" id="bmi-value">0</span>
+                            <span>BMI</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-value" id="calories-value">0</span>
+                            <span>Daily Calories</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-value" id="protein-value">0g</span>
+                            <span>Protein</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-value" id="carbs-value">0g</span>
+                            <span>Carbohydrates</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-value" id="fats-value">0g</span>
+                            <span>Fats</span>
+                        </div>
+                    </div>
+                    <div id="bmi-category" style="margin-top: 1rem; font-size: 1.1rem; font-weight: bold;"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education" class="section">
+            <div class="container">
+                <h2 class="section-title">Nutrition Education</h2>
+                <div class="education-grid">
+                    <div class="education-card">
+                        <i class="fas fa-utensils"></i>
+                        <h3>Balanced Diet Basics</h3>
+                        <p>Learn the fundamentals of a balanced diet including macronutrients and micronutrients essential for optimal health.</p>
+                    </div>
+                    <div class="education-card">
+                        <i class="fas fa-apple-alt"></i>
+                        <h3>Local Food Integration</h3>
+                        <p>Discover how to incorporate local, seasonal foods into your meal plans for better nutrition and sustainability.</p>
+                    </div>
+                    <div class="education-card">
+                        <i class="fas fa-weight-hanging"></i>
+                        <h3>Portion Control</h3>
+                        <p>Master the art of portion control to maintain a healthy weight and prevent overeating.</p>
+                    </div>
+                    <div class="education-card">
+                        <i class="fas fa-clock"></i>
+                        <h3>Meal Timing</h3>
+                        <p>Understand the importance of meal timing and how it affects your metabolism and energy levels.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recommendations Section -->
+        <section id="recommendations" class="section">
+            <div class="container">
+                <h2 class="section-title">Specialized Nutrition Recommendations</h2>
+                
+                <div class="food-grid">
+                    <div class="food-category">
+                        <h4><i class="fas fa-baby"></i> Pregnancy Nutrition</h4>
+                        <ul class="food-list">
+                            <li><strong>Folate-rich foods:</strong> Spinach, lentils, fortified cereals</li>
+                            <li><strong>Iron sources:</strong> Lean red meat, beans, fortified bread</li>
+                            <li><strong>Calcium-rich:</strong> Dairy products, leafy greens, almonds</li>
+                            <li><strong>Omega-3:</strong> Salmon, walnuts, chia seeds</li>
+                            <li><strong>Protein:</strong> Eggs, lean poultry, tofu</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="food-category">
+                        <h4><i class="fas fa-child"></i> Pediatric Nutrition</h4>
+                        <ul class="food-list">
+                            <li><strong>Whole grains:</strong> Brown rice, whole wheat bread, oats</li>
+                            <li><strong>Fruits & Vegetables:</strong> Colorful variety for vitamins</li>
+                            <li><strong>Dairy:</strong> Milk, yogurt, cheese for calcium</li>
+                            <li><strong>Lean proteins:</strong> Fish, chicken, beans</li>
+                            <li><strong>Healthy snacks:</strong> Nuts, fruits, whole grain crackers</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="food-category">
+                        <h4><i class="fas fa-kidneys"></i> Renal/Kidney Health</h4>
+                        <ul class="food-list">
+                            <li><strong>Low sodium:</strong> Fresh herbs, garlic, lemon juice</li>
+                            <li><strong>Limited potassium:</strong> Apples, berries, cabbage</li>
+                            <li><strong>Controlled protein:</strong> Fish, egg whites, small portions</li>
+                            <li><strong>Low phosphorus:</strong> Rice, pasta, fresh fruits</li>
+                            <li><strong>Fluid management:</strong> Monitor intake as advised</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="food-category">
+                        <h4><i class="fas fa-dumbbell"></i> Fitness & Wellness</h4>
+                        <ul class="food-list">
+                            <li><strong>Pre-workout:</strong> Bananas, oats, whole grain toast</li>
+                            <li><strong>Post-workout:</strong> Protein smoothies, Greek yogurt</li>
+                            <li><strong>Hydration:</strong> Water, coconut water, herbal teas</li>
+                            <li><strong>Recovery foods:</strong> Lean meats, quinoa, sweet potatoes</li>
+                            <li><strong>Anti-inflammatory:</strong> Berries, fatty fish, turmeric</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 3rem; padding: 2rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 15px; color: white;">
+                    <h3><i class="fas fa-globe"></i> Local Food Recommendations</h3>
+                    <p style="margin-bottom: 1rem;">Incorporate these nutrient-rich local foods into your meal plans:</p>
+                    <div class="food-grid" style="margin-top: 1rem;">
+                        <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px;">
+                            <h5>Grains & Starches</h5>
+                            <p>Brown rice, quinoa, sweet potatoes, whole wheat products, local grains</p>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px;">
+                            <h5>Proteins</h5>
+                            <p>Local fish, free-range poultry, legumes, nuts, seeds</p>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px;">
+                            <h5>Vegetables</h5>
+                            <p>Seasonal leafy greens, root vegetables, local produce</p>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px;">
+                            <h5>Fruits</h5>
+                            <p>Seasonal local fruits, berries, citrus fruits</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Chatbot Section -->
+        <section id="chatbot" class="section chatbot">
+            <div class="container">
+                <h2 class="section-title">AI Nutrition Chatbot</h2>
+                <p style="text-align: center; margin-bottom: 2rem; font-size: 1.1rem; color: #666;">
+                    Get instant nutrition advice and answers to your dietary questions from our AI-powered chatbot.
+                </p>
+                <iframe src="https://cdn.botpress.cloud/webchat/v2.4/shareable.html?configUrl=https://files.bpcontent.cloud/2025/04/20/09/20250420093308-PJ06OU43.json" 
+                        title="AI Nutrition Chatbot">
+                </iframe>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 AI Nutrition. All rights reserved. | Empowering healthy living through AI technology.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Meal plan calculation function
+        function calculateMealPlan() {
+            const age = parseInt(document.getElementById('age').value);
+            const height = parseInt(document.getElementById('height').value);
+            const weight = parseInt(document.getElementById('weight').value);
+            const gender = document.getElementById('gender').value;
+            const activity = document.getElementById('activity').value;
+            const goal = document.getElementById('goal').value;
+
+            // Validation
+            if (!age || !height || !weight || !gender || !activity || !goal) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            // Calculate BMI
+            const bmi = (weight / (height / 100) ** 2).toFixed(1);
+            
+            // Determine BMI category
+            let bmiCategory = '';
+            if (bmi < 18.5) {
+                bmiCategory = 'Underweight';
+            } else if (bmi < 25) {
+                bmiCategory = 'Normal weight';
+            } else if (bmi < 30) {
+                bmiCategory = 'Overweight';
+            } else {
+                bmiCategory = 'Obese';
+            }
+
+            // Calculate BMR (Basal Metabolic Rate) using Mifflin-St Jeor Equation
+            let bmr;
+            if (gender === 'male') {
+                bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+            } else {
+                bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+            }
+
+            // Apply activity multiplier
+            const activityMultipliers = {
+                'sedentary': 1.2,
+                'light': 1.375,
+                'moderate': 1.55,
+                'active': 1.725,
+                'very-active': 1.9
+            };
+
+            let totalCalories = bmr * activityMultipliers[activity];
+
+            // Adjust for goal
+            if (goal === 'lose') {
+                totalCalories -= 500; // 500 calorie deficit for weight loss
+            } else if (goal === 'gain') {
+                totalCalories += 500; // 500 calorie surplus for weight gain
+            }
+
+            // Calculate macronutrients
+            const protein = Math.round(weight * 2.2); // 1g per pound of body weight
+            const fats = Math.round(totalCalories * 0.25 / 9); // 25% of calories from fat
+            const carbs = Math.round((totalCalories - (protein * 4) - (fats * 9)) / 4); // Remaining calories from carbs
+
+            // Display results
+            document.getElementById('bmi-value').textContent = bmi;
+            document.getElementById('calories-value').textContent = Math.round(totalCalories);
+            document.getElementById('protein-value').textContent = protein + 'g';
+            document.getElementById('carbs-value').textContent = carbs + 'g';
+            document.getElementById('fats-value').textContent = fats + 'g';
+            document.getElementById('bmi-category').textContent = `BMI Category: ${bmiCategory}`;
+
+            // Show results
+            document.getElementById('results').style.display = 'block';
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Add fade-in animation to sections when they come into view
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
